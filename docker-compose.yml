@@ -1,0 +1,55 @@
+version: '3.6'
+services:
+    web:
+        image: nginx:alpine
+        container_name: web
+        volumes:
+            - "./nginx:/etc/nginx/conf.d"
+            - "./log:/var/log/nginx/apps"
+            - "./apps:/var/www/apps"
+        ports:
+            - "8080:8080" # app
+        restart: always
+    php:
+        build: ./php
+        container_name: php
+        restart: always
+        volumes:
+            - "./zenitbet.new:/var/www/zenitbet.new"
+    memcached:
+        image: memcached:alpine
+        container_name: memcached
+        ports:
+            - "11211:11211"
+        restart: always
+    mysqldb:
+        image: mysql:5.7
+        container_name: mysqldb
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=radiovolna
+            - MYSQL_USER=neroot
+            - MYSQL_PASSWORD=radiovolna
+            - MYSQL_ROOT_HOST=%
+        ports:
+            - "3306:3306"
+        volumes:
+            - "./mysql:/var/lib/mysql"
+            - "./db-bak:/backup"
+            - "./mysql-conf:/etc/mysql/conf.d"
+        command: --ignore-db-dir=lost+found --innodb-use-native-aio=0
+    adminer:
+        image: adminer:standalone 
+        container_name: adminer
+        restart: always
+        ports:
+            - "9999:8080"
+    # redis:
+    #     container_name: redis
+    #     image: redis:4.0.5-alpine
+    #     ports:
+    #         - "6379:6379"
+    #     volumes:
+    #         - "./redis:/data"
+    #     entrypoint: redis-server --appendonly yes
+    #     restart: always
