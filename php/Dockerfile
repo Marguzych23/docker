@@ -5,6 +5,7 @@ ENV ACCEPT_EULA=Y
 # Microsoft SQL Server Prerequisites
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        libonig-dev \
         locales \
         apt-transport-https \
         git \
