@@ -8,7 +8,7 @@ services:
             - "./log:/var/log/nginx/apps"
             - "./apps:/var/www/apps"
         ports:
-            - "8080:8080" # app
+            - "8000:8000" # app
         restart: always
     php:
         build: ./php
