@@ -1,3 +1,6 @@
 .idea*/
 log/*
 apps/*
+postgres/*
+pgadmin/*
+mysql/*
